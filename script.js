@@ -1,33 +1,59 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+const { useState } = React;
 
-// Functional Component
-const FunctionalComponent = () => {
+const MarkdownPre = () => {
+    const defaultMarkdown = `
+# Heading 1
+## Heading 2
+[Link](https://www.example.com)
+\`inline code\`
+\`\`\`
+// Code block
+const greeting = 'Hello';
+console.log(greeting);
+\`\`\`
+- List item 1
+- List item 2
+> Blockquote
+![Image](https://via.placeholder.com/150)
+**Bold text**
+    `;
+
+    const [markdown, setMarkdown] = useState(defaultMarkdown);
+
+    const updatePreview = (event) => {
+        setMarkdown(event.target.value);
+    };
+
+    const getMarkdownText = () => {
+        try {
+            return { __html: marked.parse(markdown) };
+        } catch (error) {
+            return { __html: 'Error parsing markdown' };
+        }
+    };
+
     return (
         <div>
-            <h1>This is a Functional Component</h1>
+            <textarea 
+                id="editor" 
+                value={markdown}
+                onChange={updatePreview}
+                placeholder="Type markdown here..."
+            />
+            <div 
+                id="preview" 
+                dangerouslySetInnerHTML={getMarkdownText()}
+            />
         </div>
     );
 };
-
-// Class Component
-class ClassComponent extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1>This is a Class Component</h1>
-            </div>
-        );
-    }
-}
 
 const App = () => {
     return (
         <div>
-            <FunctionalComponent />
-            <ClassComponent />
+            <MarkdownPre />
         </div>
     );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));
