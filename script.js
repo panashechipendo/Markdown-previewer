@@ -1,5 +1,9 @@
 const { useState } = React;
 
+marked.setOptions({
+    breaks: true,
+});
+
 const MarkdownPre = () => {
     const defaultMarkdown = `
 # Heading 1
